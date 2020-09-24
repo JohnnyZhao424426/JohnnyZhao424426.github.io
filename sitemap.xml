@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2020/09/11/JavaScript%E4%B8%AD%E7%9A%84%E6%9F%90%E4%BA%9B%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/</loc>
+    
+    <lastmod>2020-09-24</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://example.com/2020/08/29/Layui-Nav/</loc>
     
     <lastmod>2020-09-24</lastmod>
@@ -24,13 +31,6 @@
   
   <url>
     <loc>http://example.com/2020/09/15/Layer-iframe%E5%B1%82%20%E5%85%B3%E9%97%AD%E8%87%AA%E5%B7%B1/</loc>
-    
-    <lastmod>2020-09-24</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://example.com/2020/09/11/JavaScript%E4%B8%AD%E7%9A%84%E6%9F%90%E4%BA%9B%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/</loc>
     
     <lastmod>2020-09-24</lastmod>
     
