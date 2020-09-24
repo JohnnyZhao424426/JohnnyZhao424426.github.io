@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://www.johnnyzhao.com"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+  <link rel="apple-touch-icon" sizes="180x180" href="http://cdn.johnnyzhao.com/Icon-64.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="http://cdn.johnnyzhao.com/Icon-64.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="http://cdn.johnnyzhao.com/Icon-16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-big-counter.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"I8VVVBWUY3","apiKey":"b8713c3269e821274d9e80785fb8c6f0","indexName":"Index","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="SQL server Date 数据类型前言在图书管理系统的练习中，想到可以通过日期筛选图书 然后又是因为用到了存储过程，所以时间操作必定要在数据库中完成 所以就简单的看了下 SQL server 的 Date 数据类型和相关的内置函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL server Date 数据类型">
+<meta property="og:url" content="http://example.com/2020/04/15/sql-Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="昭佳宁的博客">
+<meta property="og:description" content="SQL server Date 数据类型前言在图书管理系统的练习中，想到可以通过日期筛选图书 然后又是因为用到了存储过程，所以时间操作必定要在数据库中完成 所以就简单的看了下 SQL server 的 Date 数据类型和相关的内置函数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-19T13:33:14.969Z">
+<meta property="article:author" content="Johnny Zhao">
+<meta property="article:tag" content="SQL server">
+<meta property="article:tag" content="Date 数据类型">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2020/04/15/sql-Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>SQL server Date 数据类型 | 昭佳宁的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="昭佳宁的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;" ></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/fireworks.js"></script>
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/JohnnyZhao424426" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">昭佳宁的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Johnny's Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/15/sql-Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="http://cdn.johnnyzhao.com/Icon-512.png">
+      <meta itemprop="name" content="Johnny Zhao">
+      <meta itemprop="description" content="生于忧患 死于安乐">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昭佳宁的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SQL server Date 数据类型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-15 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-15T00:00:00+08:00">2020-04-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-19 21:33:14" itemprop="dateModified" datetime="2020-05-19T21:33:14+08:00">2020-05-19</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="SQL-server-Date-数据类型"><a href="#SQL-server-Date-数据类型" class="headerlink" title="SQL server Date 数据类型"></a>SQL server Date 数据类型</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在图书管理系统的练习中，想到可以通过日期筛选图书</p>
+<p>然后又是因为用到了存储过程，所以时间操作必定要在数据库中完成</p>
+<p>所以就简单的看了下 SQL server 的 Date 数据类型和相关的内置函数</p>
+<a id="more"></a>
+
+<h2 id="Date分类"><a href="#Date分类" class="headerlink" title="Date分类"></a>Date分类</h2><p>Date 数据类型可以分为一下几种：</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>描述</th>
+<th>样式</th>
+<th>存储</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>date</td>
+<td>仅存储日期。从 0001 年 1 月 1 日 到 9999 年 12 月 31 日。</td>
+<td>2020-04-15</td>
+<td>3 bytes</td>
+</tr>
+<tr>
+<td>time</td>
+<td>仅存储时间。精度为 100 纳秒。</td>
+<td>13:23:22.5333333</td>
+<td>3-5 bytes</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>从 1753 年 1 月 1 日 到 9999 年 12 月 31 日 <br> 精度为 3.33 毫秒。</td>
+<td>2020-04-15 13:24:16.920</td>
+<td>8 bytes</td>
+</tr>
+<tr>
+<td>datetime2</td>
+<td>从 1753 年 1 月 1 日 到 9999 年 12 月 31 日 <br> 精度为 100 纳秒。（ datetime的升级版 ）</td>
+<td>2020-04-15 13:26:07.8100000</td>
+<td>6-8 bytes</td>
+</tr>
+<tr>
+<td>smalldatetime</td>
+<td>从 1900 年 1 月 1 日 到 2079 年 6 月 6 日 <br> 精度为 1 分钟。</td>
+<td>2020-04-15 13:27:00</td>
+<td>4 bytes</td>
+</tr>
+<tr>
+<td>datetimeoffset</td>
+<td>与 datetime2 相同 <br> 外加时区偏移。</td>
+<td>2020-04-15 13:28:01.3133333 +00:00</td>
+<td>8-10 bytes</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>存储唯一的数字，每当创建或修改某行时，该数字会更新。 <br> timestamp 基于内部时钟，不对应真实时间。 <br> 每个表只能有一个 timestamp 变量。（ 时间戳 ）</td>
+<td>0x0000000000000FA0</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>若需要手写日期类型，只需要按照样式的仿写然后用引号括起来即可</p>
+<p>如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">declare @timeDemo datetime</span><br><span class="line">set @timeDemo &#x3D; &#39;2020-1-1 12:30:45.123&#39;</span><br><span class="line">select @timeDemo as timeDemo</span><br></pre></td></tr></table></figure>
+
+<p>会得到以下结果</p>
+<table>
+<thead>
+<tr>
+<th>timeDemo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2020-01-01 12:30:45.123</td>
+</tr>
+</tbody></table>
+<p><strong>不过要注意，手写的内容必须合法，不然程序会报错！</strong></p>
+<h2 id="Date映射关系"><a href="#Date映射关系" class="headerlink" title="Date映射关系"></a>Date映射关系</h2><table>
+<thead>
+<tr>
+<th>SQL 数据类型</th>
+<th>.NET Framework 类型</th>
+<th>System.Data.SqlDbType</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>date</td>
+<td>System.DateTime</td>
+<td>Date</td>
+</tr>
+<tr>
+<td>time</td>
+<td>System.TimeSpan</td>
+<td>Time</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>System.DateTime</td>
+<td>DateTime</td>
+</tr>
+<tr>
+<td>datetime2</td>
+<td>System.DateTime</td>
+<td>DateTime2</td>
+</tr>
+<tr>
+<td>smalldatetime</td>
+<td>System.DateTime</td>
+<td>DateTime</td>
+</tr>
+<tr>
+<td>datetimeoffset</td>
+<td>System.DateTimeOffset</td>
+<td>DateTimeOffset</td>
+</tr>
+</tbody></table>
+<h2 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h2><h3 id="getdate"><a href="#getdate" class="headerlink" title="getdate()"></a>getdate()</h3><p>getdate() 函数从 SQL Server 返回当前的时间和日期。</p>
+<p>如使用如下语句</p>
+<p><code>select getdate() as timeDemo</code></p>
+<p>会得到以下结果</p>
+<table>
+<thead>
+<tr>
+<th>timeDemo</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2020-04-15 13:41:33.317</td>
+</tr>
+</tbody></table>
+<h3 id="datepart"><a href="#datepart" class="headerlink" title="datepart()"></a>datepart()</h3><p>datepart() 函数用于返回日期/时间的单独部分，比如年、月、日、小时、分钟等等。</p>
+<p>语法</p>
+<p><code>datepart(datepart,date)</code></p>
+<p>其中，date 参数是合法的日期表达式。datepart 参数可以是下列的值：</p>
+<table>
+<thead>
+<tr>
+<th>datepart</th>
+<th>缩写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>年</td>
+<td>yy,yyyy</td>
+</tr>
+<tr>
+<td>季度</td>
+<td>qq,q</td>
+</tr>
+<tr>
+<td>月</td>
+<td>mm,m</td>
+</tr>
+<tr>
+<td>年中的日</td>
+<td>dy,y</td>
+</tr>
+<tr>
+<td>日</td>
+<td>dd,d</td>
+</tr>
+<tr>
+<td>周</td>
+<td>wk,ww</td>
+</tr>
+<tr>
+<td>星期</td>
+<td>dw,w</td>
+</tr>
+<tr>
+<td>小时</td>
+<td>hh</td>
+</tr>
+<tr>
+<td>分钟</td>
+<td>mi,n</td>
+</tr>
+<tr>
+<td>秒</td>
+<td>ss,s</td>
+</tr>
+<tr>
+<td>毫秒</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>微秒</td>
+<td>mcs</td>
+</tr>
+<tr>
+<td>纳秒</td>
+<td>ns</td>
+</tr>
+</tbody></table>
+<p>如使用如下语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select datepart(yyyy,getdate()) as Year,</span><br><span class="line">datepart(mm,getdate()) as Month,</span><br><span class="line">datepart(dd,getdate()) as Day</span><br></pre></td></tr></table></figure>
+
+<p>会得到以下结果</p>
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Month</th>
+<th>Day</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2020</td>
+<td>4</td>
+<td>15</td>
+</tr>
+</tbody></table>
+<h3 id="dateadd"><a href="#dateadd" class="headerlink" title="dateadd()"></a>dateadd()</h3><p>dateadd() 函数在日期中添加或减去指定的时间间隔。</p>
+<p>语法</p>
+<p><code>dateadd(datepart,number,date)</code></p>
+<p>date 参数是合法的日期表达式。number 是您希望添加的间隔数；对于未来的时间，此数是正数，对于过去的时间，此数是负数。</p>
+<p>datepart 参数上面已经介绍。</p>
+<p>如使用如下语句</p>
+<p><code>select dateadd(yy,1,&#39;2020-1-1&#39;) as nextYear</code></p>
+<p>会得到以下结果</p>
+<table>
+<thead>
+<tr>
+<th>nextYear</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2021-01-01 00:00:00.000</td>
+</tr>
+</tbody></table>
+<h3 id="datediff"><a href="#datediff" class="headerlink" title="datediff()"></a>datediff()</h3><p>datediff() 函数返回两个日期之间的时间。</p>
+<p>语法</p>
+<p><code>datediff(datepart,number,date)</code></p>
+<p>startdate 和 enddate 参数是合法的日期表达式。</p>
+<p>datepart 参数上面已经介绍。</p>
+<p>如使用如下语句</p>
+<p><code>select datediff(dd,&#39;2020-01-01&#39;,&#39;2020-01-02&#39;) as timeDiffer</code></p>
+<p>会得到以下结果</p>
+<table>
+<thead>
+<tr>
+<th>timeDiffer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+</tr>
+</tbody></table>
+<h3 id="convert"><a href="#convert" class="headerlink" title="convert()"></a>convert()</h3><p>convert() 函数是把日期转换为新数据类型的通用函数。<br>convert() 函数可以用不同的格式显示日期/时间数据。</p>
+<p>语法</p>
+<p><code>convert(data_type(length),data_to_be_converted,style)</code></p>
+<p>data_type(length) 规定目标数据类型（带有可选的长度）。data_to_be_converted 含有需要转换的值。style 规定日期/时间的输出格式。</p>
+<p>style可以使用下列值</p>
+<table>
+<thead>
+<tr>
+<th>style ID</th>
+<th>style 格式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100 或 0</td>
+<td>mon dd yyyy hh:miAM （或者 PM）</td>
+</tr>
+<tr>
+<td>101</td>
+<td>mm/dd/yy</td>
+</tr>
+<tr>
+<td>102</td>
+<td>yy.mm.dd</td>
+</tr>
+<tr>
+<td>103</td>
+<td>dd/mm/yy</td>
+</tr>
+<tr>
+<td>104</td>
+<td>dd.mm.yy</td>
+</tr>
+<tr>
+<td>105</td>
+<td>dd-mm-yy</td>
+</tr>
+<tr>
+<td>106</td>
+<td>dd mon yy</td>
+</tr>
+<tr>
+<td>107</td>
+<td>Mon dd, yy</td>
+</tr>
+<tr>
+<td>108</td>
+<td>hh:mm:ss</td>
+</tr>
+<tr>
+<td>109 或 9</td>
+<td>mon dd yyyy hh:mi:ss:mmmAM（或者 PM）</td>
+</tr>
+<tr>
+<td>110</td>
+<td>mm-dd-yy</td>
+</tr>
+<tr>
+<td>111</td>
+<td>yy/mm/dd</td>
+</tr>
+<tr>
+<td>112</td>
+<td>yymmdd</td>
+</tr>
+<tr>
+<td>113 或 13</td>
+<td>dd mon yyyy hh:mm:ss:mmm(24h)</td>
+</tr>
+<tr>
+<td>114</td>
+<td>hh:mi:ss:mmm(24h)</td>
+</tr>
+<tr>
+<td>120 或 20</td>
+<td>yyyy-mm-dd hh:mi:ss(24h)</td>
+</tr>
+<tr>
+<td>121 或 21</td>
+<td>yyyy-mm-dd hh:mi:ss.mmm(24h)</td>
+</tr>
+<tr>
+<td>126</td>
+<td>yyyy-mm-ddThh:mm:ss.mmm（没有空格）</td>
+</tr>
+<tr>
+<td>130</td>
+<td>dd mon yyyy hh:mi:ss:mmmAM</td>
+</tr>
+<tr>
+<td>131</td>
+<td>dd/mm/yy hh:mi:ss:mmmAM</td>
+</tr>
+</tbody></table>
+<p>如使用如下语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select convert(varchar(20),getdate(),101) as date1,</span><br><span class="line">convert(varchar(20),getdate(),112) as date2,</span><br><span class="line">convert(varchar(30),getdate(),126) as date3</span><br></pre></td></tr></table></figure>
+
+<p>会得到以下结果</p>
+<table>
+<thead>
+<tr>
+<th>date1</th>
+<th>date2</th>
+<th>date3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>04/15/2020</td>
+<td>20200415</td>
+<td>2020-04-15T14:31:43.143</td>
+</tr>
+</tbody></table>
+<h2 id="Date-和-运算符"><a href="#Date-和-运算符" class="headerlink" title="Date 和 运算符"></a>Date 和 运算符</h2><p>Date 类型是可以使用 = , &gt; , &lt; , &gt;= 和 &lt;= 等运算符的，时间越晚，数值越大</p>
+<p>比如</p>
+<p>我们比较两个时间的大小，就可以用 &gt; 运算符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(&#39;2020-01-01&#39;&gt;&#39;2020-01-02&#39;)</span><br><span class="line">	select &#39;Yse&#39; as result;</span><br><span class="line">else select &#39;No&#39; as result;</span><br></pre></td></tr></table></figure>
+
+<p>结果如下</p>
+<table>
+<thead>
+<tr>
+<th>result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>No</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+       <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+​
+      
+    </div>
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="http://cdn.johnnyzhao.com/wechat.JPG" alt="Johnny Zhao 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="http://cdn.johnnyzhao.com/airpay.JPG" alt="Johnny Zhao 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SQL-server/" rel="tag"><i class="fa fa-tag"></i># SQL server</a>
+              <a href="/tags/Date-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" rel="tag"><i class="fa fa-tag"></i># Date 数据类型</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/15/C#%E4%B8%AD%E7%9A%84Cache%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF/" rel="next" title="c#中的Cache缓存技术">
+      c#中的Cache缓存技术 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC80OTYzNi8yNjEyNw"></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL-server-Date-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">SQL server Date 数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date%E5%88%86%E7%B1%BB"><span class="nav-text">Date分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date%E6%98%A0%E5%B0%84%E5%85%B3%E7%B3%BB"><span class="nav-text">Date映射关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="nav-text">内置函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#getdate"><span class="nav-text">getdate()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#datepart"><span class="nav-text">datepart()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dateadd"><span class="nav-text">dateadd()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#datediff"><span class="nav-text">datediff()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#convert"><span class="nav-text">convert()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Date-%E5%92%8C-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-text">Date 和 运算符</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Johnny Zhao"
+      src="http://cdn.johnnyzhao.com/Icon-512.png">
+  <p class="site-author-name" itemprop="name">Johnny Zhao</p>
+  <div class="site-description" itemprop="description">生于忧患 死于安乐</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/JohnnyZhao424426" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;JohnnyZhao424426" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2275119091@qq.com" title="E-Mail → mailto:2275119091@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">昭佳宁</span>
+</div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共7.4k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
