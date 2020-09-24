@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2020/05/18/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%20%E6%95%B0%E5%AD%97%E5%88%A4%E6%96%AD/</loc>
+    
+    <lastmod>2020-09-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/index.html</loc>
+    
+    <lastmod>2020-09-24</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://example.com/2020/04/15/C#%E4%B8%AD%E7%9A%84Cache%E7%BC%93%E5%AD%98%E6%8A%80%E6%9C%AF/</loc>
     
     <lastmod>2020-05-19</lastmod>
@@ -9,21 +23,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/2020/04/18/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3.NET%20MemoryCache/</loc>
-    
-    <lastmod>2020-05-19</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://example.com/2020/04/15/sql-Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</loc>
-    
-    <lastmod>2020-05-19</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://example.com/2020/05/18/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%20%E6%95%B0%E5%AD%97%E5%88%A4%E6%96%AD/</loc>
+    <loc>http://example.com/2020/04/15/SQL%20Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</loc>
     
     <lastmod>2020-05-19</lastmod>
     
@@ -44,6 +44,27 @@
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>http://example.com/tags/NET/</loc>
+    <lastmod>2020-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/MVC/</loc>
+    <lastmod>2020-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.com/tags/Global/</loc>
+    <lastmod>2020-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
   
   <url>
     <loc>http://example.com/tags/Net/</loc>
@@ -81,27 +102,6 @@
   </url>
   
   <url>
-    <loc>http://example.com/tags/NET/</loc>
-    <lastmod>2020-09-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/MVC/</loc>
-    <lastmod>2020-09-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/Global/</loc>
-    <lastmod>2020-09-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://example.com/tags/SQL-server/</loc>
     <lastmod>2020-09-24</lastmod>
     <changefreq>daily</changefreq>
@@ -110,20 +110,6 @@
   
   <url>
     <loc>http://example.com/tags/Date-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</loc>
-    <lastmod>2020-09-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/net/</loc>
-    <lastmod>2020-09-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.com/tags/cache/</loc>
     <lastmod>2020-09-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

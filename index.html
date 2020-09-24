@@ -28,8 +28,8 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="/lib/pace/pace-theme-big-counter.min.css">
-  <script src="/lib/pace/pace.min.js"></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
@@ -139,6 +139,11 @@
         <li class="menu-item menu-item-home">
 
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-archives">
@@ -303,7 +308,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-19 21:33:04" itemprop="dateModified" datetime="2020-05-19T21:33:04+08:00">2020-05-19</time>
+                <time title="修改时间：2020-09-24 20:24:35" itemprop="dateModified" datetime="2020-09-24T20:24:35+08:00">2020-09-24</time>
               </span>
 
           
@@ -317,101 +322,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="整数判断"><a href="#整数判断" class="headerlink" title="整数判断"></a>整数判断</h1><ol>
-<li>判断整数<br><code>&quot;^-?\\d+$&quot;</code></li>
-<li>判断正整数<br><code>&quot;^[0-9]*[1-9][0-9]*$&quot;</code></li>
+          <a id="more"></a>
+
+<h1 id="整数判断"><a href="#整数判断" class="headerlink" title="整数判断"></a>整数判断</h1><ol>
+<li><p>判断整数<br><code>&quot;^-?\d+$&quot;</code></p>
+</li>
+<li><p>判断正整数<br><code>&quot;^\d*[1-9]\d*$&quot;</code></p>
+</li>
+<li><p>判断负整数<br><code>&quot;^-\d*[1-9]\d*$&quot;</code></p>
+</li>
+<li><p>判断非正整数<br><code>&quot;^((-\d+)|(0+))$&quot;</code></p>
+</li>
+<li><p>判断非负整数<br><code>&quot;^\d+$&quot;</code></p>
+</li>
 </ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/18/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%20%E6%95%B0%E5%AD%97%E5%88%A4%E6%96%AD/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
+<h1 id="浮点数判断"><a href="#浮点数判断" class="headerlink" title="浮点数判断"></a>浮点数判断</h1><ol>
+<li>判断浮点数<br><code>&quot;^(-?\d+)(\.\d+)?$&quot;</code></li>
+<li>判断正浮点数<br><code>&quot;^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$&quot;</code></li>
+<li>判断负浮点数<br><code>&quot;^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$&quot;</code></li>
+<li>判断非正浮点数<br><code>&quot;^((-\d+(\.\d+)?)|(0+(\.0+)?))$&quot;</code></li>
+<li>判断非负浮点数<br><code>&quot;^\d+(\.\d+)?$&quot;</code></li>
+</ol>
 
-    
-    
-    
-
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/18/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3.NET%20MemoryCache/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="http://cdn.johnnyzhao.com/Icon-512.png">
-      <meta itemprop="name" content="Johnny Zhao">
-      <meta itemprop="description" content="生于忧患 死于安乐">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="昭佳宁的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/18/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3.NET%20MemoryCache/" class="post-title-link" itemprop="url">深入理解.NET MemoryCache</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-18 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-18T00:00:00+08:00">2020-04-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-19 21:33:20" itemprop="dateModified" datetime="2020-05-19T21:33:20+08:00">2020-05-19</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p><code>MemoryCache</code> 是 <code>.Net Framework 4.0</code> 开始提供的内存缓存类，使用该类型可以方便的在程序内部缓存数据并对于数据的有效性进行方便的管理，借助该类型可以实现 ASP.NET 中常用的 <code>Cache</code> 类的相似功能，并且可以适应更加丰富的使用场景。在使用 <code>MemoryCache</code> 时常常有各种疑问，数据是怎么组织的？有没有可能用更高效的组织和使用方式？数据超时如何控制？为了知其所以然，本文中对于 <code>MemoryCache</code> 的原理和实现方式进行了深入分析，同时在分析的过程中学习到了许多业界成熟组件的设计思想，为今后的工作打开了更加开阔的思路。</p>
-<p>本文面向的是 <code>.net 4.5.1</code> 的版本，在后续的 <code>.net</code> 版本中 <code>MemoryCache</code> 有略微的不同，欢迎补充</p>
-<p>文章内容较长，预计阅读时间1小时左右</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/18/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3.NET%20MemoryCache/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
@@ -526,7 +458,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/15/sql-Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/15/SQL%20Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="http://cdn.johnnyzhao.com/Icon-512.png">
@@ -540,7 +472,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/15/sql-Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">SQL server Date 数据类型</a>
+            <a href="/2020/04/15/SQL%20Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">SQL server Date 数据类型</a>
         </h2>
 
         <div class="post-meta">
@@ -576,7 +508,7 @@
 <p>所以就简单的看了下 SQL server 的 Date 数据类型和相关的内置函数</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/04/15/sql-Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/#more" rel="contents">
+              <a class="btn" href="/2020/04/15/SQL%20Date%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -673,13 +605,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">12</span>
-        <span class="site-state-item-name">标签</span>
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -722,12 +656,12 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共7.4k字</span>
+  <span class="post-count">博客全站共3.4k字</span>
 </div>
         
 <div class="busuanzi-count">
   <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;"></span>
       <span class="post-meta-item-icon">
         <i class="fa fa-user"></i>
       </span>
@@ -736,7 +670,7 @@
       </span>
     </span>
     <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;"></span>
       <span class="post-meta-item-icon">
         <i class="fa fa-eye"></i>
       </span>
@@ -758,6 +692,7 @@
   </div>
 
   
+  <script size="300" alpha="0.6" zIndex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
@@ -773,6 +708,7 @@
 <script src="/js/next-boot.js"></script>
 
 
+  <script defer src="/lib/three/three.min.js"></script>
 
 
   
@@ -844,5 +780,5 @@
   
 
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":240,"height":480},"mobile":{"show":false},"react":{"opacityDefault":1,"opacityOnHover":1},"log":false,"tagMode":false});</script></body>
 </html>
