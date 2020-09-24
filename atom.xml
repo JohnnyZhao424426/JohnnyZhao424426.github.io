@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2020-05-19T13:32:54.719Z</updated>
+  <updated>2020-09-24T13:39:55.161Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,97 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python中的序列</title>
+    <link href="http://example.com/2020/09/24/Python%E4%B8%AD%E7%9A%84%E6%95%B0%E7%BB%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/"/>
+    <id>http://example.com/2020/09/24/Python%E4%B8%AD%E7%9A%84%E6%95%B0%E7%BB%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/</id>
+    <published>2020-09-24T12:30:00.000Z</published>
+    <updated>2020-09-24T13:39:55.161Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>本文总结于 <code>Python Docs</code> ，仅供个人学习使用。</p></blockquote><h1 id="三种序列类型"><a href="#三种序列类型" class="headerlink" title="三种序列类型"></a>三种序列类型</h1><p>在 <code>Python</code> 语言中，共有三种基本的序列类型，分别是：</p><ul><li>list</li><li>tuple</li><li>range</li></ul><p>三者大同小异，下面对他们进行介绍</p><a id="more"></a><h2 id="通用序列操作"><a href="#通用序列操作" class="headerlink" title="通用序列操作"></a>通用序列操作</h2><p>大多数序列类型，包括可变类型和不可变类型都支持下表中的操作。</p><p>此表按优先级升序列出了序列操作。 在表格中，<em>s</em> 和 <em>t</em> 是具有相同类型的序列，<em>n</em>, <em>i</em>, <em>j</em> 和 <em>k</em> 是整数而 <em>x</em> 是任何满足 <em>s</em> 所规定的类型和值限制的任意对象。</p><p><code>in</code> 和 <code>not in</code> 操作具有与比较操作相同的优先级。 <code>+</code> (拼接) 和 <code>*</code> (重复) 操作具有与对应数值运算相同的优先级。</p><table><thead><tr><th align="left">运算</th><th align="left">结果：</th></tr></thead><tbody><tr><td align="left"><code>x in s</code></td><td align="left">如果 <em>s</em> 中的某项等于 <em>x</em> 则结果为 <code>True</code>，否则为 <code>False</code></td></tr><tr><td align="left"><code>x not in s</code></td><td align="left">如果 <em>s</em> 中的某项等于 <em>x</em> 则结果为 <code>False</code>，否则为 <code>True</code></td></tr><tr><td align="left"><code>s + t</code></td><td align="left"><em>s</em> 与 <em>t</em> 相拼接</td></tr><tr><td align="left"><code>s * n</code> 或 <code>n * s</code></td><td align="left">相当于 <em>s</em> 与自身进行 <em>n</em> 次拼接</td></tr><tr><td align="left"><code>s[i]</code></td><td align="left"><em>s</em> 的第 <em>i</em> 项，起始为 0</td></tr><tr><td align="left"><code>s[i:j]</code></td><td align="left"><em>s</em> 从 <em>i</em> 到 <em>j</em> 的切片</td></tr><tr><td align="left"><code>s[i:j:k]</code></td><td align="left"><em>s</em> 从 <em>i</em> 到 <em>j</em> 步长为 <em>k</em> 的切片</td></tr><tr><td align="left"><code>len(s)</code></td><td align="left"><em>s</em> 的长度</td></tr><tr><td align="left"><code>min(s)</code></td><td align="left"><em>s</em> 的最小项</td></tr></tbody></table><p>相同类型的序列也支持比较。 特别地，tuple 和 list 的比较是通过比较对应元素的字典顺序。 这意味着想要比较结果相等，则每个元素比较结果都必须相等，并且两个序列长度必须相同。</p><blockquote><p>其中需要注意：</p><ol><li><p>小于 <code>0</code> 的 <em>n</em> 值会被当作 <code>0</code> 来处理 (生成一个与 <em>s</em> 同类型的空序列)。 请注意序列 <em>s</em> 中的项并不会被拷贝；它们会被多次引用。</p><p>比如：</p></li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>lists = [[]] * <span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lists</span><br><span class="line">[[], [], []]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lists[<span class="number">0</span>].append(<span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lists</span><br><span class="line">[[<span class="number">3</span>], [<span class="number">3</span>], [<span class="number">3</span>]]</span><br></pre></td></tr></table></figure><ul><li>具体的原因在于 <code>[[]]</code> 是一个包含了一个空列表的单元素列表，所以 <code>[[]] * 3</code> 结果中的三个元素都是对这一个空列表的引用。 修改 <code>lists</code> 中的任何一个元素实际上都是对这一个空列表的修改。 你可以用以下方式创建以不同列表为元素的列表:</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>lists = [[] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>)]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lists[<span class="number">0</span>].append(<span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lists[<span class="number">1</span>].append(<span class="number">5</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lists[<span class="number">2</span>].append(<span class="number">7</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>lists</span><br><span class="line">[[<span class="number">3</span>], [<span class="number">5</span>], [<span class="number">7</span>]]</span><br></pre></td></tr></table></figure><ol start="2"><li><p>如果 <em>i</em> 或 <em>j</em> 为负值，则索引顺序是相对于序列 <em>s</em> 的末尾: 索引号会被替换为 <code>len(s) + i</code> 或 <code>len(s) + j</code>。 但要注意 <code>-0</code> 仍然为 <code>0</code>。</p><p>如:</p></li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list[<span class="number">-1</span>]</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list[len(list) + <span class="number">-1</span>]</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list[<span class="number">-0</span>]</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure><ol start="3"><li><p>s* 从 <em>i</em> 到 <em>j</em> 的切片被定义为所有满足 <code>i &lt;= k &lt; j</code> 的索引号 <em>k</em> 的项组成的序列。 如果 <em>i</em> 或 <em>j</em> 大于 <code>len(s)</code>，则使用 <code>len(s)</code>。 如果 <em>i</em> 被省略或为 <code>None</code>，则使用 <code>0</code>。 如果 <em>j</em> 被省略或为 <code>None</code>，则使用 <code>len(s)</code>。 如果 <em>i</em> 大于等于 <em>j</em>，则切片为空。</p><p>如:</p></li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list[<span class="number">0</span>: <span class="number">5</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list[: <span class="number">2</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list[<span class="number">2</span>: <span class="number">1</span>]</span><br><span class="line">[]</span><br></pre></td></tr></table></figure><ol start="4"><li><p><em>s</em> 从 <em>i</em> 到 <em>j</em> 步长为 <em>k</em> 的切片被定义为所有满足 <code>0 &lt;= n &lt; (j-i)/k</code> 的索引号 <code>x = i + n*k</code> 的项组成的序列。 换句话说，索引号为 <code>i</code>, <code>i+k</code>, <code>i+2*k</code>, <code>i+3*k</code>，以此类推，当达到 <em>j</em> 时停止 (但一定不包括 <em>j</em>)。 当 <em>k</em> 为正值时，<em>i</em> 和 <em>j</em> 会被减至不大于 <code>len(s)</code>。 当 <em>k</em> 为负值时，<em>i</em> 和 <em>j</em> 会被减至不大于 <code>len(s) - 1</code>。 如果 <em>i</em> 或 <em>j</em> 被省略或为 <code>None</code>，它们会成为“终止”值 (是哪一端的终止值则取决于 <em>k</em> 的符号)。 请注意，<em>k</em> 不可为零。 如果 <em>k</em> 为 <code>None</code>，则当作 <code>1</code> 处理。</p><p>如:</p></li></ol><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list[<span class="number">0</span>: <span class="number">2</span>: <span class="number">2</span>]</span><br><span class="line">[<span class="number">1</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list[<span class="number">0</span>: <span class="number">2</span>]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>]</span><br></pre></td></tr></table></figure><ol start="5"><li>拼接不可变序列总是会生成新的对象。 这意味着通过重复拼接来构建序列的运行时开销将会基于序列总长度的乘方。 想要获得线性的运行时开销，你必须改用下列替代方案之一：</li></ol><ul><li>如果拼接 <code>str</code>对象，你可以构建一个列表并在最后使用 <code>str.join()</code>或是写入一个 <code>io.StringIO</code>实例并在结束时获取它的值</li><li>如果拼接 <code>bytes</code> 对象，你可以类似地使用 <code>bytes.join()</code> 或 <code>io.BytesIO</code>，或者你也可以使用 <code>bytearray</code> 对象进行原地拼接。 <code>bytearray</code> 对象是可变的，并且具有高效的重分配机制</li><li>如果拼接 <code>tuple</code>对象，请改为扩展 <code>list</code> 类</li></ul><ol start="6"><li><p>某些序列类型 (例如 <code>range</code>) 仅支持遵循特定模式的项序列，因此并不支持序列拼接或重复。</p></li><li><p>当 <em>x</em> 在 <em>s</em> 中找不到时 <code>index</code> 会引发 <code>ValueError</code>。 不是所有实现都支持传入额外参数 <em>i</em> 和 <em>j</em>。 这两个参数允许高效地搜索序列的子序列。 传入这两个额外参数大致相当于使用 <code>s[i:j].index(x)</code>，但是不会复制任何数据，并且返回的索引是相对于序列的开头而非切片的开头。</p></li></ol></blockquote><h3 id="不可变序列类型"><a href="#不可变序列类型" class="headerlink" title="不可变序列类型"></a>不可变序列类型</h3><p>不可变序列类型普遍实现而可变序列类型未实现的唯一操作就是对<code>hash()</code> 内置函数的支持。</p><p>这种支持允许不可变类型，例如 <code>tuple</code>实例被用作 <code>dict</code>键，以及存储在 <code>set</code>和 <code>frozenset</code>实例中。</p><p>尝试对包含有不可哈希值的不可变序列进行哈希运算将会导致 <code>TypeError</code>。</p><h3 id="可变序列类型"><a href="#可变序列类型" class="headerlink" title="可变序列类型"></a>可变序列类型</h3><p>以下表格中的操作是在可变序列类型上定义的。 <code>collections.abc.MutableSequence</code> ABC 被提供用来更容易地在自定义序列类型上正确实现这些操作。</p><p>表格中的 <em>s</em> 是可变序列类型的实例，<em>t</em> 是任意可迭代对象，而 <em>x</em> 是符合对 <em>s</em> 所规定类型与值限制的任何对象 (例如，<code>bytearray</code> 仅接受满足 <code>0 &lt;= x &lt;= 255</code> 值限制的整数)。</p><table><thead><tr><th align="left">运算</th><th align="left">结果：</th></tr></thead><tbody><tr><td align="left"><code>s[i] = x</code></td><td align="left">将 <em>s</em> 的第 <em>i</em> 项替换为 <em>x</em></td></tr><tr><td align="left"><code>s[i:j] = t</code></td><td align="left">将 <em>s</em> 从 <em>i</em> 到 <em>j</em> 的切片替换为可迭代对象 <em>t</em> 的内容</td></tr><tr><td align="left"><code>del s[i:j]</code></td><td align="left">等同于 <code>s[i:j] = []</code></td></tr><tr><td align="left"><code>s[i:j:k] = t</code></td><td align="left">将 <code>s[i:j:k]</code> 的元素替换为 <em>t</em> 的元素</td></tr><tr><td align="left"><code>del s[i:j:k]</code></td><td align="left">从列表中移除 <code>s[i:j:k]</code> 的元素</td></tr><tr><td align="left"><code>s.append(x)</code></td><td align="left">将 <em>x</em> 添加到序列的末尾 (等同于 <code>s[len(s):len(s)] = [x]</code>)</td></tr><tr><td align="left"><code>s.clear()</code></td><td align="left">从 <em>s</em> 中移除所有项 (等同于 <code>del s[:]</code>)</td></tr><tr><td align="left"><code>s.copy()</code></td><td align="left">创建 <em>s</em> 的浅拷贝 (等同于 <code>s[:]</code>)</td></tr><tr><td align="left"><code>s.extend(t)</code> 或 <code>s += t</code></td><td align="left">用 <em>t</em> 的内容扩展 <em>s</em> (基本上等同于 <code>s[len(s):len(s)] = t</code>)</td></tr></tbody></table><blockquote><p>其中需要注意:</p><ol><li><em>t</em> 必须与它所替换的切片具有相同的长度。</li><li>可选参数 <em>i</em> 默认为 <code>-1</code>，因此在默认情况下会移除并返回最后一项。</li><li>当在 <em>s</em> 中找不到 <em>x</em> 时 <code>remove</code> 操作会引发 <code>ValueError</code>。</li><li>当反转大尺寸序列时 <code>reverse()</code> 方法会原地修改该序列以保证空间经济性。 为提醒用户此操作是通过间接影响进行的，它并不会返回反转后的序列。</li><li><em>n</em> 值为一个整数，或是一个实现了 <code>__index__()</code> 的对象。 <em>n</em> 值为零或负数将清空序列。 序列中的项不会被拷贝；它们会被多次引用。</li></ol></blockquote><blockquote><p>持续更新中……</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本文总结于 &lt;code&gt;Python Docs&lt;/code&gt; ，仅供个人学习使用。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;三种序列类型&quot;&gt;&lt;a href=&quot;#三种序列类型&quot; class=&quot;headerlink&quot; title=&quot;三种序列类型&quot;&gt;&lt;/a&gt;三种序列类型&lt;/h1&gt;&lt;p&gt;在 &lt;code&gt;Python&lt;/code&gt; 语言中，共有三种基本的序列类型，分别是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;list&lt;/li&gt;
+&lt;li&gt;tuple&lt;/li&gt;
+&lt;li&gt;range&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;三者大同小异，下面对他们进行介绍&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="Python" scheme="http://example.com/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>layer</title>
+    <link href="http://example.com/2020/09/15/Layer-iframe%E5%B1%82%20%E5%85%B3%E9%97%AD%E8%87%AA%E5%B7%B1/"/>
+    <id>http://example.com/2020/09/15/Layer-iframe%E5%B1%82%20%E5%85%B3%E9%97%AD%E8%87%AA%E5%B7%B1/</id>
+    <published>2020-09-15T12:12:00.000Z</published>
+    <updated>2020-09-24T13:37:38.693Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="layer-关闭自己"><a href="#layer-关闭自己" class="headerlink" title="layer 关闭自己"></a>layer 关闭自己</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> index = parent.layer.getFrameIndex(<span class="built_in">window</span>.name); </span><br><span class="line">parent.layer.close(index); </span><br></pre></td></tr></table></figure><a id="more"></a>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;layer-关闭自己&quot;&gt;&lt;a href=&quot;#layer-关闭自己&quot; class=&quot;headerlink&quot; title=&quot;layer 关闭自己&quot;&gt;&lt;/a&gt;layer 关闭自己&lt;/h1&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; index = parent.layer.getFrameIndex(&lt;span class=&quot;built_in&quot;&gt;window&lt;/span&gt;.name); &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;parent.layer.close(index); &lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    
+    <category term="layui" scheme="http://example.com/tags/layui/"/>
+    
+    <category term="前端" scheme="http://example.com/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>js数组</title>
+    <link href="http://example.com/2020/09/11/JavaScript%E4%B8%AD%E7%9A%84%E6%9F%90%E4%BA%9B%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/"/>
+    <id>http://example.com/2020/09/11/JavaScript%E4%B8%AD%E7%9A%84%E6%9F%90%E4%BA%9B%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/</id>
+    <published>2020-09-11T04:11:00.000Z</published>
+    <updated>2020-09-24T13:34:59.782Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>js中数组的某些操作</p></blockquote><a id="more"></a><h1 id="删除数组中下标为-index-的元素"><a href="#删除数组中下标为-index-的元素" class="headerlink" title="删除数组中下标为 index 的元素"></a>删除数组中下标为 <code>index</code> 的元素</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.splice(index, <span class="number">1</span>)</span><br></pre></td></tr></table></figure><h1 id="删除数组中符合条件的元素"><a href="#删除数组中符合条件的元素" class="headerlink" title="删除数组中符合条件的元素"></a>删除数组中符合条件的元素</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">arr.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">item, index, arr</span>) </span>&#123;</span><br><span class="line">               <span class="keyword">if</span> ( <span class="comment">/*item 满足条件*/</span> ) &#123;</span><br><span class="line">                   arr.splice(index, <span class="number">1</span>);</span><br><span class="line">               &#125;</span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure><h1 id="数组中的元素交换位置"><a href="#数组中的元素交换位置" class="headerlink" title="数组中的元素交换位置"></a>数组中的元素交换位置</h1><p><code>index1</code> 位置上的元素替换为 <code>index2</code> 位置上的元素</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array.splice(index1, <span class="number">1</span> , array[index2])</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;js中数组的某些操作&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    
+    <category term="JavaScript" scheme="http://example.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>layui-nav</title>
+    <link href="http://example.com/2020/08/29/Layui-Nav/"/>
+    <id>http://example.com/2020/08/29/Layui-Nav/</id>
+    <published>2020-08-29T07:23:00.000Z</published>
+    <updated>2020-09-24T13:40:22.085Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="vue-动态改变导航条-渲染失败的问题"><a href="#vue-动态改变导航条-渲染失败的问题" class="headerlink" title="vue 动态改变导航条 渲染失败的问题"></a>vue 动态改变导航条 渲染失败的问题</h1><p>在 <code>updated</code> 后调用 <code>layui.element.render(&#39;nav&#39;,layfilter)</code> 方法即可</p><a id="more"></a>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;vue-动态改变导航条-渲染失败的问题&quot;&gt;&lt;a href=&quot;#vue-动态改变导航条-渲染失败的问题&quot; class=&quot;headerlink&quot; title=&quot;vue 动态改变导航条 渲染失败的问题&quot;&gt;&lt;/a&gt;vue 动态改变导航条 渲染失败的问题&lt;/h1&gt;&lt;p&gt;在 &lt;code&gt;updated&lt;/code&gt; 后调用 &lt;code&gt;layui.element.render(&amp;#39;nav&amp;#39;,layfilter)&lt;/code&gt; 方法即可&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="layui" scheme="http://example.com/tags/layui/"/>
+    
+    <category term="前端" scheme="http://example.com/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
   
   <entry>
     <title>ASP.NET MVC中的Global.asax文件</title>
@@ -44,18 +135,15 @@
     <link href="http://example.com/2020/05/18/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%20%E6%95%B0%E5%AD%97%E5%88%A4%E6%96%AD/"/>
     <id>http://example.com/2020/05/18/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%20%E6%95%B0%E5%AD%97%E5%88%A4%E6%96%AD/</id>
     <published>2020-05-18T13:05:00.000Z</published>
-    <updated>2020-09-24T12:24:35.054Z</updated>
+    <updated>2020-09-24T13:38:47.030Z</updated>
     
-    <content type="html"><![CDATA[<a id="more"></a><h1 id="整数判断"><a href="#整数判断" class="headerlink" title="整数判断"></a>整数判断</h1><ol><li><p>判断整数<br><code>&quot;^-?\d+$&quot;</code></p></li><li><p>判断正整数<br><code>&quot;^\d*[1-9]\d*$&quot;</code></p></li><li><p>判断负整数<br><code>&quot;^-\d*[1-9]\d*$&quot;</code></p></li><li><p>判断非正整数<br><code>&quot;^((-\d+)|(0+))$&quot;</code></p></li><li><p>判断非负整数<br><code>&quot;^\d+$&quot;</code></p></li></ol><h1 id="浮点数判断"><a href="#浮点数判断" class="headerlink" title="浮点数判断"></a>浮点数判断</h1><ol><li>判断浮点数<br><code>&quot;^(-?\d+)(\.\d+)?$&quot;</code></li><li>判断正浮点数<br><code>&quot;^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$&quot;</code></li><li>判断负浮点数<br><code>&quot;^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$&quot;</code></li><li>判断非正浮点数<br><code>&quot;^((-\d+(\.\d+)?)|(0+(\.0+)?))$&quot;</code></li><li>判断非负浮点数<br><code>&quot;^\d+(\.\d+)?$&quot;</code></li></ol>]]></content>
+    <content type="html"><![CDATA[<h1 id="整数判断"><a href="#整数判断" class="headerlink" title="整数判断"></a>整数判断</h1><ol><li>判断整数<br><code>&quot;^-?\d+$&quot;</code></li><li>判断正整数<br><code>&quot;^\d*[1-9]\d*$&quot;</code></li><li>判断负整数<br><code>&quot;^-\d*[1-9]\d*$&quot;</code><a id="more"></a></li><li>判断非正整数<br><code>&quot;^((-\d+)|(0+))$&quot;</code></li><li>判断非负整数<br><code>&quot;^\d+$&quot;</code></li></ol><h1 id="浮点数判断"><a href="#浮点数判断" class="headerlink" title="浮点数判断"></a>浮点数判断</h1><ol><li>判断浮点数<br><code>&quot;^(-?\d+)(\.\d+)?$&quot;</code></li><li>判断正浮点数<br><code>&quot;^((\d+\.\d*[1-9]\d*)|(\d*[1-9]\d*\.\d+)|(\d*[1-9]\d*))$&quot;</code></li><li>判断负浮点数<br><code>&quot;^(-((\d+\.\d*[1-9]\d*)|(\d*[1-9]\d*\.\d+)|(\d*[1-9]\d*)))$&quot;</code></li><li>判断非正浮点数<br><code>&quot;^((-\d+(\.\d+)?)|(0+(\.0+)?))$&quot;</code></li><li>判断非负浮点数<br><code>&quot;^\d+(\.\d+)?$&quot;</code></li></ol>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-
-&lt;h1 id=&quot;整数判断&quot;&gt;&lt;a href=&quot;#整数判断&quot; class=&quot;headerlink&quot; title=&quot;整数判断&quot;&gt;&lt;/a&gt;整数判断&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;判断整数&lt;br&gt;&lt;code&gt;&amp;quot;^-?\d+$&amp;quot;&lt;</summary>
-      
+    <summary type="html">&lt;h1 id=&quot;整数判断&quot;&gt;&lt;a href=&quot;#整数判断&quot; class=&quot;headerlink&quot; title=&quot;整数判断&quot;&gt;&lt;/a&gt;整数判断&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;判断整数&lt;br&gt;&lt;code&gt;&amp;quot;^-?\d+$&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;判断正整数&lt;br&gt;&lt;code&gt;&amp;quot;^\d*[1-9]\d*$&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;判断负整数&lt;br&gt;&lt;code&gt;&amp;quot;^-\d*[1-9]\d*$&amp;quot;&lt;/code&gt;</summary>
     
     
     
